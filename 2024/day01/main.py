@@ -1,3 +1,4 @@
+from collections import Counter
 from functools import reduce
 
 
@@ -22,6 +23,15 @@ def part_two():
     return sum(diffs)
 
 
+def part_two_using_counters():
+    lines = get_input()
+    left, right = sorted(list(map(lambda x: x[0], lines))), sorted(list(map(lambda x: x[1], lines)))
+    counter = Counter(right)
+    reduced = reduce(lambda x, y: y * counter.get(y, 0) + x, left, 0)
+    return reduced
+
+
 if __name__ == "__main__":
     print(f"Part one solution: {part_one()}")
     print(f"Part two solution: {part_two()}")
+    print(f"Part two (Alternative): {part_two_using_counters()}")

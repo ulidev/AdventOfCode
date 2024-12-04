@@ -3,7 +3,7 @@ from functools import reduce
 
 
 def get_input():
-    with open("input.txt", 'r', encoding='utf-8') as file:
+    with open("input3.txt", 'r', encoding='utf-8') as file:
         lines = file.read().splitlines()
     return lines
 
@@ -49,8 +49,9 @@ def part_two():
         for j, c in enumerate(r):
             if c == 'A' and i != 0 and j != 0 and i != len(lines) - 1 and j != len(r) - 1:
                 sig_els = [lines[i - 1][j - 1], lines[i - 1][j + 1], lines[i + 1][j - 1], lines[i + 1][j + 1]]
-                if (sig_els[0] == 'M' and sig_els[3] == 'S') or (sig_els[0] == 'S' and sig_els[3] == 'M') and (
-                        sig_els[1] == 'M' and sig_els[2] == 'S') or (sig_els[1] == 'S' and sig_els[2] == 'M'):
+                if ((sig_els[0] == 'M' and sig_els[3] == 'S') or (sig_els[0] == 'S' and sig_els[3] == 'M')) and (
+                        (sig_els[1] == 'M' and sig_els[2] == 'S') or (sig_els[1] == 'S' and sig_els[2] == 'M')
+                ):
                     counter += 1
 
     return counter

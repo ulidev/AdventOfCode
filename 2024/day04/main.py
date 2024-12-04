@@ -11,15 +11,13 @@ def get_input():
 def count_els(arr):
     return reduce(lambda x, y: x + len(y), arr, 0)
 
+def get_number_of_matches(arr) -> int:
+    pattern = r"(?=(XMAS|SAMX))"
+    return sum(list(map(lambda x: len(re.findall(pattern, x)), arr)))
 
 def part_one():
-    pattern = r"(?=(XMAS))"
     lines = get_input()
-    h_matches = list(map(lambda x: re.findall(pattern, x), lines))
-    h_i_matches = list(map(lambda x: re.findall(pattern, x[::-1]), lines))
     transposed = ["".join(line) for line in zip(*lines)]
-    v_matches = list(map(lambda x: re.findall(pattern, x), transposed))
-    v_i_matches = list(map(lambda x: re.findall(pattern, x[::-1]), transposed))
 
     diagonals_main = {}
     diagonals_secondary = {}
@@ -37,17 +35,11 @@ def part_one():
             diagonals_secondary[diag_secondary_index].append(lines[i][j])
 
     diagonal_main_list = list("".join(v) for v in diagonals_main.values())
-    d_matches = list(map(lambda x: re.findall(pattern, x), diagonal_main_list))
-    d_i_matches = list(map(lambda x: re.findall(pattern, x[::-1]), diagonal_main_list))
-
     diagonal_inverse_list = list("".join(v) for v in diagonals_secondary.values())
-    d_r_matches = list(map(lambda x: re.findall(pattern, x), diagonal_inverse_list))
-    d_r_i_matches = list(map(lambda x: re.findall(pattern, x[::-1]), diagonal_inverse_list))
 
-    count = count_els(h_matches) + count_els(h_i_matches) + count_els(v_matches) + count_els(v_i_matches) + count_els(
-        d_matches) + count_els(d_i_matches) + count_els(d_r_matches) + count_els(d_r_i_matches)
+    evaluate_arrays = [lines, transposed, diagonal_inverse_list, diagonal_main_list]
 
-    return count
+    return reduce(lambda x, y: x + get_number_of_matches(y), evaluate_arrays, 0)
 
 
 def part_two():
@@ -57,9 +49,9 @@ def part_two():
         for j, c in enumerate(r):
             if c == 'A' and i != 0 and j != 0 and i != len(lines) - 1 and j != len(r) - 1:
                 sig_els = [lines[i - 1][j - 1], lines[i - 1][j + 1], lines[i + 1][j - 1], lines[i + 1][j + 1]]
-                if (sig_els[0] == 'M' and sig_els[3] == 'S') or (sig_els[0] == 'S' and sig_els[3] == 'M'):
-                    if (sig_els[1] == 'M' and sig_els[2] == 'S') or (sig_els[1] == 'S' and sig_els[2] == 'M'):
-                        counter += 1
+                if (sig_els[0] == 'M' and sig_els[3] == 'S') or (sig_els[0] == 'S' and sig_els[3] == 'M') and (
+                        sig_els[1] == 'M' and sig_els[2] == 'S') or (sig_els[1] == 'S' and sig_els[2] == 'M'):
+                    counter += 1
 
     return counter
 

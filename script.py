@@ -2,8 +2,10 @@ import os
 import shutil
 import sys
 
+from dotenv import load_dotenv
 import requests
 
+load_dotenv()
 
 def get_input(yy, dd):
 
@@ -23,8 +25,10 @@ def get_input(yy, dd):
 
 def main(day):
     year = os.getenv("YEAR")
+    if year is None:
+        raise Exception()
 
-    print(f"Day: {day}. Formatted: {day.zfill(2)}")
+    print(f"Day: {day}. Formatted: {day.zfill(2)}. Year = {year}")
 
     folder_name = f"{year}/day{day.zfill(2)}"
     os.makedirs(folder_name, exist_ok=True)
